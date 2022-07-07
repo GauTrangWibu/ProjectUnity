@@ -7,12 +7,15 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator animator;
-    [SerializeField] public float speed;
+    [SerializeField] private Transform groundCheckCollider;
+    [SerializeField] private float speed;
     [SerializeField] private float horizontalValue;
     [SerializeField] private bool IsFaceRight = true ;
     [SerializeField] private bool IsRunning = false;
     [SerializeField] private float runSpeedModifer = 1.5f;
-    
+    [SerializeField] private bool IsGrounded = false;
+    [SerializeField] const float groundCheckRaidus = 0.2f;
+    [SerializeField] LayerMask groundLayer;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -38,14 +41,25 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        GroundCheck();
         Move(horizontalValue);
     }
 
 
+    void GroundCheck()
+    {
+
+        IsGrounded = false;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckCollider.position,groundCheckRaidus,groundLayer);
+        if (colliders.Length > 0) {
+            IsGrounded = true;
+        }
+    }
+
     void Move(float direction)
     {
-        
-        float xValue = direction * speed* Time.deltaTime;
+
+        float xValue = direction * speed * Time.fixedDeltaTime;
         if (IsRunning)
         {
             xValue *= runSpeedModifer;

@@ -374,11 +374,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   animator: {fileID: 0}
+  groundCheckCollider: {fileID: 2039416831}
   speed: 200
   horizontalValue: 0
   IsFaceRight: 1
   IsRunning: 0
   runSpeedModifer: 4
+  IsGrounded: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!95 &31098196
 Animator:
   serializedVersion: 4
