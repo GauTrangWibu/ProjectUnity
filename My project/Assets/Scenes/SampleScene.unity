@@ -339,7 +339,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 7d12632ba086c3347894b24821048c34, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -384,6 +384,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  jumpPower: 125
+  IsJump: 0
 --- !u!95 &31098196
 Animator:
   serializedVersion: 4
@@ -415,7 +417,7 @@ GameObject:
   - component: {fileID: 82758233}
   - component: {fileID: 82758235}
   - component: {fileID: 82758234}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Floor3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +528,7 @@ GameObject:
   - component: {fileID: 172556748}
   - component: {fileID: 172556750}
   - component: {fileID: 172556749}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Floor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1152,7 +1154,7 @@ GameObject:
   - component: {fileID: 1243117923}
   - component: {fileID: 1243117925}
   - component: {fileID: 1243117924}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Floor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1374,7 +1376,7 @@ GameObject:
   - component: {fileID: 1530828127}
   - component: {fileID: 1530828129}
   - component: {fileID: 1530828128}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Floor12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1818,7 +1820,7 @@ GameObject:
   - component: {fileID: 1970628127}
   - component: {fileID: 1970628129}
   - component: {fileID: 1970628128}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Floor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform groundCheckCollider;
-    [SerializeField] private float speed;
+    [SerializeField] private float speed = 200;
     [SerializeField] private float horizontalValue;
     [SerializeField] private bool IsFaceRight = true ;
     [SerializeField] private bool IsRunning = false;
@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool IsGrounded = false;
     [SerializeField] const float groundCheckRaidus = 0.2f;
     [SerializeField] LayerMask groundLayer;
+    [SerializeField] private float jumpPower = 125f;
+    [SerializeField] private bool IsJump = false;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -36,13 +38,22 @@ public class PlayerController : MonoBehaviour
         {
             IsRunning = false;
         }
-        
+        if (Input.GetButtonDown("Jump"))
+        {
+            IsJump = true;
+        }
+        else if (Input.GetButtonUp("Jump"))
+        {
+            IsJump = false;
+        }
+
+
     }
 
     private void FixedUpdate()
     {
         GroundCheck();
-        Move(horizontalValue);
+        Movement(horizontalValue,IsJump);
     }
 
 
@@ -56,9 +67,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Move(float direction)
+    void Movement(float direction,bool jumpFlag)
     {
+        if (IsGrounded && jumpFlag)
+        {
+            IsGrounded = false;
+            jumpFlag = false;
+            rb.AddForce(new Vector2(0f, jumpPower));
+        }
 
+        #region Move and Run
         float xValue = direction * speed * Time.fixedDeltaTime;
         if (IsRunning)
         {
@@ -77,6 +95,9 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             IsFaceRight = true;
         }
+        #endregion
+
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+        
     }
 }
