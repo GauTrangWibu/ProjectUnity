@@ -7,8 +7,9 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset;
+    [SerializeField] private Vector3 minValues, maxValues;
     [Range(1,10)]
-    [SerializeField] public float smoothFactor;
+    [SerializeField] private float smoothFactor;
  
     private void FixedUpdate()
     {
@@ -18,7 +19,13 @@ public class CameraFollow : MonoBehaviour
     void Follow()
     {
         Vector3 tagetPosition = target.position + offset;
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, tagetPosition, smoothFactor*Time.fixedDeltaTime);
+        //check it player it out of bound or not 
+        Vector3 boundPosition = new Vector3(
+            Mathf.Clamp(tagetPosition.x,minValues.x, maxValues.x),
+            Mathf.Clamp(tagetPosition.y, minValues.y, maxValues.y),
+            Mathf.Clamp(tagetPosition.z, minValues.z, maxValues.z));
+
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, boundPosition, smoothFactor*Time.fixedDeltaTime);
         transform.position = smoothPosition;
     }
 }
