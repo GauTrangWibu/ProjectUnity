@@ -21,16 +21,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float crouchSpeedModifer = 0.5f;
     [SerializeField] private float runSpeedModifer = 1.5f;
     [SerializeField] private float jumpPower = 125f;
+    [SerializeField] private int totalJumps = 2;
+    [SerializeField] private int availableJumps;
 
     [SerializeField] private bool IsFaceRight = true;
     [SerializeField] private bool IsRunning = false;
     [SerializeField] private bool IsGrounded = false;
+    [SerializeField] private bool IsMultiJump = false;
     [SerializeField] private bool Crouch = false;
-    [SerializeField] private bool Jump = false;
+    [SerializeField] private bool coyoteJump;
     #endregion
 
     private void Awake()
     {
+        availableJumps = totalJumps;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
@@ -51,13 +55,12 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetButtonDown("Jump"))
         {
-            Jump = true;
+            MultiJump();
         }
         else if (Input.GetButtonUp("Jump"))
         {
             //set up the condition for jump animation
-            animator.SetBool("Jump", true);
-            Jump = false;
+           
         }
         if(Input.GetButtonDown("Crouch"))
         {
@@ -74,26 +77,49 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         GroundCheck();
-        Movement(horizontalValue,Jump,Crouch);
+        Movement(horizontalValue,Crouch);
     }
 
 
     void GroundCheck()
     {
-
+        bool wasGrounded = IsGrounded;
         IsGrounded = false;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckCollider.position,groundCheckRadius,groundLayer);
-        if (colliders.Length > 0) {
+        if (colliders.Length > 0) 
+        {
             IsGrounded = true;
+            if(!wasGrounded)
+            {
+                availableJumps = totalJumps;
+                IsMultiJump = false;
+            }
         }
         //if main char in ground the jump boll will always return false 
         animator.SetBool("Jump", !IsGrounded);
     }
 
-    void Movement(float direction,bool jumpFlag, bool crouchFlag)
+    void MultiJump()
+    {
+        if (IsGrounded && !IsMultiJump)
+        {
+            availableJumps--;
+            IsMultiJump = true;
+            rb.velocity = Vector2.up * jumpPower;
+            animator.SetBool("Jump", true);
+        }
+        else if(IsMultiJump && availableJumps > 0)
+            {
+                availableJumps--;
+                rb.velocity = Vector2.up * jumpPower;
+                animator.SetBool("Jump", true);
+            }
+    }
+
+    void Movement(float direction, bool crouchFlag)
     {
 
-        #region jump and crouch
+        #region crouch
         if (!crouchFlag)
         {
             if (Physics2D.OverlapCircle(overheadCheckCollider.position,overheadCheckRadius,groundLayer))
@@ -102,16 +128,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (IsGrounded)
-        {
-            standingCollider.enabled = !crouchFlag;
-
-            if (jumpFlag)
-            {
-                jumpFlag = false;
-                rb.AddForce(new Vector2(0f, jumpPower));
-            }
-        }
+        
         #endregion
 
         #region Move and Run
