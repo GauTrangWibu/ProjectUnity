@@ -80,7 +80,6 @@ public class PlayerController : MonoBehaviour
         Movement(horizontalValue,Crouch);
     }
 
-
     void GroundCheck()
     {
         bool wasGrounded = IsGrounded;
@@ -182,4 +181,15 @@ public class PlayerController : MonoBehaviour
        
         
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(groundCheckCollider.position, groundCheckRadius);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(overheadCheckCollider.position, overheadCheckRadius);
+
+    }
+
 }
+
