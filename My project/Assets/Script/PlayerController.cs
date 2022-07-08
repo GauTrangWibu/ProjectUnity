@@ -95,10 +95,19 @@ public class PlayerController : MonoBehaviour
                 IsMultiJump = false;
             }
         }
+        else if (wasGrounded)
+        {
+            StartCoroutine(CoyoteJumpDelay());
+        }
         //if main char in ground the jump boll will always return false 
         animator.SetBool("Jump", !IsGrounded);
     }
-
+    IEnumerator CoyoteJumpDelay()
+    {
+        coyoteJump = true;
+        yield return new WaitForSeconds(0.3f);
+        coyoteJump = false;
+    }
     void MultiJump()
     {
         if (IsGrounded && !IsMultiJump)
@@ -108,12 +117,25 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.up * jumpPower;
             animator.SetBool("Jump", true);
         }
-        else if(IsMultiJump && availableJumps > 0)
+        else
+        {
+            if (coyoteJump)
+            {
+                Debug.Log("Coyote Jump");
+                IsMultiJump = true;
+                availableJumps--;
+                rb.velocity = Vector2.up * jumpPower;
+                animator.SetBool("Jump", true);
+            }
+
+            if (IsMultiJump && availableJumps > 0)
             {
                 availableJumps--;
                 rb.velocity = Vector2.up * jumpPower;
                 animator.SetBool("Jump", true);
             }
+        }
+        
     }
 
     void Movement(float direction, bool crouchFlag)
