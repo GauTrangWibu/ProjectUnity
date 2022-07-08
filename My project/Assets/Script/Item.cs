@@ -9,6 +9,9 @@ public class Item : MonoBehaviour
     //Collider Trigger
     [SerializeField] private enum InteractionType { NONE,PickUp,Examine }
     [SerializeField] private InteractionType type;
+
+    [SerializeField] public string descriptionText;
+    
     void Start()
     {
         
@@ -31,6 +34,10 @@ public class Item : MonoBehaviour
                 gameObject.SetActive(false);
                 break;
             case InteractionType.Examine:
+                //Display an Examine Window
+                //Show the item's image in the middle
+                //Whrite description text underneath the image
+                FindObjectOfType<InteractionSystem>().ExamineItem(this);
                 Debug.Log("Examine");
                 break;
             default:

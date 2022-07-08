@@ -41,6 +41,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsMove())
+        {
+            return;
+        }
         //get horizontal input 
         horizontalValue = Input.GetAxisRaw("Horizontal");
 
@@ -196,5 +200,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    bool IsMove()
+    {
+        bool CanMove = true;
+        if(FindObjectOfType<InteractionSystem>().isExamining)
+        {
+            CanMove = false;
+        }
+        return CanMove;
+    }
 }
 
