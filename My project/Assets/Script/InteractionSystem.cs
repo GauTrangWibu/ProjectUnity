@@ -9,8 +9,9 @@ public class InteractionSystem : MonoBehaviour
     //Detection Radius
     //Detection Layer
     [SerializeField] private Transform detectionTarget;
-    [SerializeField] private const float detectionRadius = 0.25f;
+    [SerializeField] private const float detectionRadius = 0.2f;
     [SerializeField] private LayerMask detectionLayer;
+    [SerializeField] public GameObject dectectedItems;
     void Start()
     {
         
@@ -23,7 +24,7 @@ public class InteractionSystem : MonoBehaviour
         {
             if (InteracInput())
             {
-                Debug.Log("Interacted");
+                dectectedItems.GetComponent<Item>().Interact();
             }
         }
     }
@@ -35,6 +36,16 @@ public class InteractionSystem : MonoBehaviour
 
     bool DetectItem()
     {
-        return Physics2D.OverlapCircle(detectionTarget.position, detectionRadius, detectionLayer);
+        Collider2D item =  Physics2D.OverlapCircle(detectionTarget.position, detectionRadius, detectionLayer);
+        if(item == null)
+        {
+            dectectedItems = null;
+            return false;
+        }
+        else
+        {
+            dectectedItems = item.gameObject;
+            return true;
+        }
     }
 }

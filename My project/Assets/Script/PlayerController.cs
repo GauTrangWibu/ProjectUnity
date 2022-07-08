@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsGrounded && !IsMultiJump)
         {
-            availableJumps--;
+            availableJumps--; 
             IsMultiJump = true;
             rb.velocity = Vector2.up * jumpPower;
             animator.SetBool("Jump", true);
@@ -146,7 +146,12 @@ public class PlayerController : MonoBehaviour
             if (Physics2D.OverlapCircle(overheadCheckCollider.position,overheadCheckRadius,groundLayer))
             {
                 crouchFlag = true;
+                
             }
+        }
+        else if (IsGrounded)
+        {
+            standingCollider.enabled = !crouchFlag;
         }
 
         
