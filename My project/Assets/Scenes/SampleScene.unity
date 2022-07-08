@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 31098191}
   - component: {fileID: 31098193}
   - component: {fileID: 31098194}
+  - component: {fileID: 31098197}
   - component: {fileID: 31098195}
   - component: {fileID: 31098196}
   m_Layer: 0
@@ -320,6 +321,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2039416831}
+  - {fileID: 1734761505}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -353,12 +355,12 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 31098190}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 7d12632ba086c3347894b24821048c34, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.017758684, y: -0.041196637}
-  m_Size: {x: 0.18334216, y: 0.24044965}
+  m_Offset: {x: -0.015824199, y: -0.043131154}
+  m_Size: {x: 0.17947316, y: 0.23658061}
   m_Direction: 0
 --- !u!114 &31098195
 MonoBehaviour:
@@ -375,17 +377,21 @@ MonoBehaviour:
   rb: {fileID: 0}
   animator: {fileID: 0}
   groundCheckCollider: {fileID: 2039416831}
-  speed: 200
-  horizontalValue: 0
-  IsFaceRight: 1
-  IsRunning: 0
-  runSpeedModifer: 4
-  IsGrounded: 0
+  overheadCheckCollider: {fileID: 1734761505}
+  standingCollider: {fileID: 31098194}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  speed: 200
+  horizontalValue: 0
+  crouchSpeedModifer: 0.5
+  runSpeedModifer: 1.5
   jumpPower: 125
-  IsJump: 0
+  IsFaceRight: 1
+  IsRunning: 0
+  IsGrounded: 0
+  Crouch: 0
+  Jump: 0
 --- !u!95 &31098196
 Animator:
   serializedVersion: 4
@@ -406,6 +412,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &31098197
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31098190}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 7d12632ba086c3347894b24821048c34, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.016401768, y: -0.090209864}
+  serializedVersion: 2
+  m_Radius: 0.072967745
 --- !u!1 &82758232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1587,6 +1609,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!1 &1734761504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1734761505}
+  m_Layer: 0
+  m_Name: OverheadCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1734761505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734761504}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0352, y: 0.049, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 31098192}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1926591899
 GameObject:
   m_ObjectHideFlags: 0

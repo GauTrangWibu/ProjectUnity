@@ -5,19 +5,30 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
+    #region Setup
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform groundCheckCollider;
+    [SerializeField] private Transform overheadCheckCollider;
+    [SerializeField] private Collider2D standingCollider;
+    [SerializeField] private LayerMask groundLayer;
+
+    [SerializeField] private const float groundCheckRadius = 0.2f;
+    [SerializeField] private const float overheadCheckRadius = 0.2f;
+
     [SerializeField] private float speed = 200;
     [SerializeField] private float horizontalValue;
-    [SerializeField] private bool IsFaceRight = true ;
-    [SerializeField] private bool IsRunning = false;
+    [SerializeField] private float crouchSpeedModifer = 0.5f;
     [SerializeField] private float runSpeedModifer = 1.5f;
-    [SerializeField] private bool IsGrounded = false;
-    [SerializeField] const float groundCheckRaidus = 0.2f;
-    [SerializeField] LayerMask groundLayer;
     [SerializeField] private float jumpPower = 125f;
-    [SerializeField] private bool IsJump = false;
+
+    [SerializeField] private bool IsFaceRight = true;
+    [SerializeField] private bool IsRunning = false;
+    [SerializeField] private bool IsGrounded = false;
+    [SerializeField] private bool Crouch = false;
+    [SerializeField] private bool Jump = false;
+    #endregion
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -40,20 +51,27 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetButtonDown("Jump"))
         {
-            IsJump = true;
+            Jump = true;
         }
         else if (Input.GetButtonUp("Jump"))
         {
-            IsJump = false;
+            Jump = false;
         }
-
+        if(Input.GetButtonDown("Crouch"))
+        {
+            Crouch = true;
+        }
+        else if (Input.GetButtonUp("Crouch"))
+        {
+            Crouch = false;
+        }
 
     }
 
     private void FixedUpdate()
     {
         GroundCheck();
-        Movement(horizontalValue,IsJump);
+        Movement(horizontalValue,Jump,Crouch);
     }
 
 
@@ -61,26 +79,46 @@ public class PlayerController : MonoBehaviour
     {
 
         IsGrounded = false;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckCollider.position,groundCheckRaidus,groundLayer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckCollider.position,groundCheckRadius,groundLayer);
         if (colliders.Length > 0) {
             IsGrounded = true;
         }
     }
 
-    void Movement(float direction,bool jumpFlag)
+    void Movement(float direction,bool jumpFlag, bool crouchFlag)
     {
-        if (IsGrounded && jumpFlag)
+
+        #region jump and crouch
+        if (!crouchFlag)
         {
-            IsGrounded = false;
-            jumpFlag = false;
-            rb.AddForce(new Vector2(0f, jumpPower));
+            if (Physics2D.OverlapCircle(overheadCheckCollider.position,overheadCheckRadius,groundLayer))
+            {
+                crouchFlag = true;
+            }
         }
+
+        if (IsGrounded)
+        {
+            standingCollider.enabled = !crouchFlag;
+
+            if (jumpFlag)
+            {
+                IsGrounded = false;
+                jumpFlag = false;
+                rb.AddForce(new Vector2(0f, jumpPower));
+            }
+        }
+        #endregion
 
         #region Move and Run
         float xValue = direction * speed * Time.fixedDeltaTime;
         if (IsRunning)
         {
             xValue *= runSpeedModifer;
+        }
+        if (crouchFlag)
+        {
+            xValue *= crouchSpeedModifer;
         }
         Vector2 targetVelocity = new Vector2(xValue, rb.velocity.y);
         rb.velocity = targetVelocity;
@@ -96,7 +134,7 @@ public class PlayerController : MonoBehaviour
             IsFaceRight = true;
         }
         #endregion
-
+        animator.SetBool("Crouch", crouchFlag);
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         
     }
