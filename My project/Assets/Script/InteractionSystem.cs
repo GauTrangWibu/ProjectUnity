@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class InteractionSystem : MonoBehaviour
 {
+    [Header("Detection Parameters")]
     // Start is called before the first frame update
     //Detection Transform
     //Detection Radius
     //Detection Layer
+    //List of picked item
     [SerializeField] private Transform detectionTarget;
     [SerializeField] private const float detectionRadius = 0.2f;
     [SerializeField] private LayerMask detectionLayer;
     [SerializeField] public GameObject dectectedItems;
+    [Header("Other")]
+    [SerializeField] public List<GameObject> pickedItems;
     void Start()
     {
         
@@ -47,5 +51,10 @@ public class InteractionSystem : MonoBehaviour
             dectectedItems = item.gameObject;
             return true;
         }
+    }
+
+    public void PickUpItem(GameObject item)
+    {
+        pickedItems.Add(item);
     }
 }
