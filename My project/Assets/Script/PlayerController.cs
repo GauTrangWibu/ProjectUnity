@@ -37,10 +37,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //store horizontal
+        //get horizontal input 
         horizontalValue = Input.GetAxisRaw("Horizontal");
 
-        // Setup Running
+        //Get input from the keyboard
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             IsRunning = true;
@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonUp("Jump"))
         {
+            //set up the condition for jump animation
+            animator.SetBool("Jump", true);
             Jump = false;
         }
         if(Input.GetButtonDown("Crouch"))
@@ -65,7 +67,8 @@ public class PlayerController : MonoBehaviour
         {
             Crouch = false;
         }
-
+        //set up the condition for jump and fall animation
+        animator.SetFloat("yVelocity", rb.velocity.y);
     }
 
     private void FixedUpdate()
@@ -83,6 +86,8 @@ public class PlayerController : MonoBehaviour
         if (colliders.Length > 0) {
             IsGrounded = true;
         }
+        //if main char in ground the jump boll will always return false 
+        animator.SetBool("Jump", !IsGrounded);
     }
 
     void Movement(float direction,bool jumpFlag, bool crouchFlag)
@@ -103,7 +108,6 @@ public class PlayerController : MonoBehaviour
 
             if (jumpFlag)
             {
-                IsGrounded = false;
                 jumpFlag = false;
                 rb.AddForce(new Vector2(0f, jumpPower));
             }
@@ -136,6 +140,7 @@ public class PlayerController : MonoBehaviour
         #endregion
         animator.SetBool("Crouch", crouchFlag);
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+       
         
     }
 }
