@@ -4727,7 +4727,7 @@ MonoBehaviour:
   sfxLibrary:
   - {fileID: 8300000, guid: b99da9a57308d4ba1bee1cf1d9038376, type: 3}
   - {fileID: 8300000, guid: 0c008ee3ee72a4362a35be25fa5de043, type: 3}
-  music_ingame: {fileID: 0}
+  music_ingame: {fileID: 8300000, guid: bf17d3a88e3294185953a4c2aa69b03d, type: 3}
   soundObject: {fileID: 6925947332674526958, guid: 5090bb873afb7e949add63e41a12315c, type: 3}
 --- !u!4 &308363674
 Transform:
