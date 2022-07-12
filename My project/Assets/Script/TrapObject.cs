@@ -5,10 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class TrapObject : MonoBehaviour
 {
-
-    
-    [SerializeField] private bool is_Hurt;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -35,8 +31,7 @@ public class TrapObject : MonoBehaviour
             
             Debug.Log("Trigger on");
         }
-        else
-            is_Hurt = false;
+            
     }
 
 }
