@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class LifeController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Image[] lives;
-    public int livesRemaining;
+   [SerializeField] public Image[] lives;
+   [SerializeField] public int livesRemaining;
     
     public void LostLife()
     {
@@ -15,6 +15,8 @@ public class LifeController : MonoBehaviour
         if(livesRemaining == 0)
         {
             Debug.Log("You lost");
+            FindObjectOfType<PlayerController>().Dead();
+            FindObjectOfType<LevelManager>().Restart();
             return;
         }
     }
