@@ -15,6 +15,7 @@ public class LifeController : MonoBehaviour
         if(livesRemaining == 0)
         {
             Debug.Log("You lost");
+            return;
         }
     }
     void Start()
