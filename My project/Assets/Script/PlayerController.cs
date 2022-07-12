@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform overheadCheckCollider;
     [SerializeField] private Collider2D standingCollider;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Collider2D crouchCollider;
 
     [SerializeField] private const float groundCheckRadius = 0.2f;
     [SerializeField] private const float overheadCheckRadius = 0.2f;
@@ -30,11 +31,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool IsMultiJump = false;
     [SerializeField] private bool Crouch = false;
     [SerializeField] private bool coyoteJump;
+    [SerializeField] private bool isDead;
     #endregion
 
     private void Awake()
     {
-        
+        crouchCollider = GetComponent<CircleCollider2D>();
         availableJumps = totalJumps;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -103,11 +105,14 @@ public class PlayerController : MonoBehaviour
                 availableJumps = totalJumps;
                 IsMultiJump = false;
                 AudioManager.instance.PlaySFX(0);
+                crouchCollider.enabled = false;
                 Debug.Log("landed");
             }
         }
         else if (wasGrounded)
         {
+            crouchCollider.enabled = false;
+            standingCollider.enabled = wasGrounded;
             StartCoroutine(CoyoteJumpDelay());
         }
         //if main char in ground the jump boll will always return false 
@@ -163,6 +168,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (IsGrounded)
         {
+            crouchCollider.enabled = IsGrounded;
             standingCollider.enabled = !crouchFlag;
         }
 
@@ -215,7 +221,17 @@ public class PlayerController : MonoBehaviour
         {
             CanMove = false;
         }
+        if (isDead)
+        {
+            CanMove = false;
+        }
         return CanMove;
+    }
+
+    public void Dead()
+    {
+        isDead = true;
+        
     }
 }
 
