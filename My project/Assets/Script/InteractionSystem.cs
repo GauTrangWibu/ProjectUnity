@@ -78,7 +78,6 @@ public class InteractionSystem : MonoBehaviour
         else
         {
             //display an examine window
-           
             examineWindow.SetActive(false);
             isExamining = false;
         }

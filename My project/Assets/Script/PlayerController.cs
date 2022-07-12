@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        AudioManager.instance.playMusic();
         availableJumps = totalJumps;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -96,6 +97,8 @@ public class PlayerController : MonoBehaviour
             {
                 availableJumps = totalJumps;
                 IsMultiJump = false;
+                AudioManager.instance.PlaySFX(0);
+                Debug.Log("landed");
             }
         }
         else if (wasGrounded)
