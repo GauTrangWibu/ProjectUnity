@@ -34,10 +34,15 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        AudioManager.instance.playMusic();
+        
         availableJumps = totalJumps;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        AudioManager.instance.playMusic();
     }
     // Update is called once per frame
     void Update()
