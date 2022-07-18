@@ -6,9 +6,10 @@ using UnityEngine;
 public class TrapObject : MonoBehaviour
 {
     // Start is called before the first frame update
+   
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -28,10 +29,7 @@ public class TrapObject : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             FindObjectOfType<LifeController>().LostLife();
-            
-            Debug.Log("Trigger on");
         }
-            
     }
 
 }
