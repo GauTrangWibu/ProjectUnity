@@ -23,6 +23,7 @@ public class AddScore : MonoBehaviour
     {
         if (collision.gameObject.tag == "AddScore")
         {
+            AudioManager.instance.PlaySFX(2);
             score += 10;
             scoreText.text = "Score:" + score;
         }
