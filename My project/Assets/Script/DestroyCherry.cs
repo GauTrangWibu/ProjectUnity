@@ -19,8 +19,10 @@ public class DestroyCherry : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            AudioManager.instance.PlaySFX(2);
             Destroy(gameObject);
         }
     }
+
 
 }
