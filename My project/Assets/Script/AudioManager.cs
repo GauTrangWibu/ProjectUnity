@@ -37,6 +37,9 @@ public class AudioManager : MonoBehaviour
             case 1:
                 SoundObjectCreation(sfxLibrary[1]);
                 break;
+            case 2:
+                SoundObjectCreation(sfxLibrary[2]);
+                break;
             default:
 
                 break;
